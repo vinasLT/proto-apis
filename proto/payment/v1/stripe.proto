@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package payment.v1;
+
+
+service StripeService {
+    rpc GetCheckoutLink(GetCheckoutLinkRequest) returns (GetCheckoutLinkResponse);
+}
+
+message GetCheckoutLinkRequest{
+    string purpose = 1;
+    string purpose_external_id = 2;
+    string success_link = 3;
+    string cancel_link = 4;
+    string user_external_id = 5;
+    string source = 6;
+}
+
+message GetCheckoutLinkResponse{
+    string link = 1;
+}

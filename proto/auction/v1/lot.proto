@@ -1,0 +1,129 @@
+syntax = "proto3";
+
+package auction.v1;
+
+service LotService {
+    rpc GetLot(GetLotRequest) returns (GetLotResponse);
+
+    rpc GetSaleHistory(GetSaleHistoryRequest) returns (GetSaleHistoryResponse);
+
+    rpc GetLotByVinOrLot(GetLotByVinOrLotRequest) returns (GetLotByVinOrLotResponse);
+
+    rpc GetCurrentBid(GetCurrentBidRequest) returns (GetCurrentBidResponse);
+}
+
+message GetLotRequest {
+    int64 lot_id = 1;
+    string site = 2;
+}
+
+message GetLotResponse {
+    repeated Lot lot = 1;
+}
+
+message GetSaleHistoryRequest {
+    int64 lot_id = 1;
+    string site = 2;
+}
+
+message GetSaleHistoryResponse {
+    repeated Lot lot = 1;
+}
+
+message GetLotByVinOrLotRequest {
+    string vin_or_lot_id = 1;
+    optional string site = 2;
+}
+
+message GetLotByVinOrLotResponse {
+    repeated Lot lot = 1;
+}
+
+message GetCurrentBidRequest {
+    int64 lot_id = 1;
+    string site = 2;
+}
+
+message GetCurrentBidResponse {
+    CurrentBid current_bid = 1;
+}
+
+message CurrentBid {
+    int32 pre_bid = 1;
+}
+
+message Lot {
+    int64 lot_id = 1;
+    int32 site = 2;
+    string base_site = 3;
+    optional int64 salvage_id = 4;
+    optional int32 odometer = 5;
+    optional int32 price_new = 6;
+    optional int32 price_future = 7;
+    optional int32 price_reserve = 8;
+    int32 current_bid = 9;
+    optional string auction_date = 10;
+    optional int32 cost_priced = 11;
+    optional int32 cost_repair = 12;
+    optional int32 year = 13;
+    optional int32 cylinders = 14;
+    optional string state = 15;
+    optional string vehicle_type = 16;
+    optional string auction_type = 17;
+    optional string make = 18;
+    optional string model = 19;
+    optional string series = 20;
+    optional string damage_pr = 21;
+    optional string damage_sec = 22;
+    optional string keys = 23;
+    optional string odobrand = 24;
+    optional string fuel = 25;
+    optional string drive = 26;
+    optional string transmission = 27;
+    optional string color = 28;
+    optional string status = 29;
+    optional string title = 30;
+    optional string vin = 31;
+    optional string engine = 32;
+    optional double engine_size = 33;
+    optional string location = 34;
+    optional string location_old = 35;
+    optional int32 location_id = 36;
+    optional string country = 37;
+    optional string document = 38;
+    optional string document_old = 39;
+    optional string currency = 40;
+    optional string seller = 41;
+    bool is_buynow = 42;
+    optional string iaai_360 = 43;
+    repeated string copart_exterior_360 = 44;
+    optional string copart_interior_360 = 45;
+    optional string video = 46;
+    repeated string link_img_hd = 47;
+    repeated string link_img_small = 48;
+    bool is_offsite = 49;
+    optional string location_offsite = 50;
+    optional string link = 51;
+    optional string body_type = 52;
+    optional string seller_type = 53;
+    optional string vehicle_score = 54;
+    optional string form_get_type = 55;
+    repeated SaleHistory sale_history = 56;
+    optional string sale_date = 57;
+    optional string sale_status = 58;
+    optional int32 purchase_price = 59;
+}
+
+message SaleHistory {
+    int64 lot_id = 1;
+    int32 site = 2;
+    optional string base_site = 3;
+    optional string vin = 4;
+    optional string sale_status = 5;
+    optional string sale_date = 6;
+    int32 purchase_price = 7;
+    bool is_buynow = 8;
+    optional string buyer_state = 9;
+    optional string buyer_country = 10;
+    optional string vehicle_type = 11;
+}

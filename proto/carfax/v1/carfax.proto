@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package carfax.v1;
+
+service CarfaxService {
+    rpc BuyCarfax(BuyCarfaxRequest) returns (BuyCarfaxResponse);
+
+    rpc GetAllCarfaxesForUser(GetAllCarfaxesForUserRequest) returns (GetAllCarfaxesForUserResponse);
+
+    rpc GetCarfaxByVin(GetCarfaxByVinRequest) returns (GetCarfaxByVinResponse);
+
+    rpc IsVinExists(IsVinExistsRequest) returns (IsVinExistsResponse);
+}
+message IsVinExistsRequest{
+    string vin = 1;
+}
+
+message IsVinExistsResponse{
+    bool is_exists = 1;
+}
+
+message BuyCarfaxRequest {
+    string source = 1;
+    string vin = 2;
+    string user_external_id = 3;
+    string success_url = 4;
+    string cancel_url = 5;
+}
+
+
+message BuyCarfaxResponse {
+    Carfax carfax = 1;
+    string link = 2;
+}
+
+message GetAllCarfaxesForUserRequest {
+    string user_external_id = 1;
+    string source = 2;
+}
+
+message GetAllCarfaxesForUserResponse {
+    repeated Carfax carfaxes = 1;
+}
+
+message GetCarfaxByVinRequest {
+    string vin = 1;
+    string source = 2;
+    string user_external_id = 3;
+}
+
+message GetCarfaxByVinResponse {
+    Carfax carfax = 1;
+}
+
+
+message Carfax {
+    string user_external_id = 1;
+    string source = 2;
+    optional string link = 3;
+    bool is_paid = 4;
+    optional string vin = 5;
+    optional string created_at = 6;
+    string id = 7;
+}
