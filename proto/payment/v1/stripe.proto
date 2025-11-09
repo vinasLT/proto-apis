@@ -19,3 +19,51 @@ message GetCheckoutLinkRequest{
 message GetCheckoutLinkResponse{
     string link = 1;
 }
+
+
+service PaymentService {
+    rpc CreateNewTransaction(CreateNewTransactionRequest) returns (CreateNewTransactionResponse);
+
+    rpc GetUserAccount(GetUserAccountRequest) returns (GetUserAccountResponse);
+}
+
+enum TransactionType {
+    TRANSACTION_TYPE_UNSPECIFIED = 0;
+    TRANSACTION_TYPE_PLAN_PURCHASE = 1;
+    TRANSACTION_TYPE_BID_PLACEMENT = 2;
+    TRANSACTION_TYPE_ADJUSTMENT = 3;
+}
+
+message CreateNewTransactionRequest{
+    string user_uuid = 1;
+    optional int32 plan_id = 2;
+    TransactionType transaction_type = 3;
+    int32 amount = 4;
+}
+
+message CreateNewTransactionResponse{
+    int32 user_account_id = 1;
+    optional int32 plan_id = 2;
+    TransactionType transaction_type = 3;
+    int32 amount = 4;
+}
+
+message Plan{
+    string name = 1;
+    string description = 2;
+    int32 max_bid_one_time = 3;
+    int32 bid_power = 4;
+    int32 price = 5;
+
+}
+
+message GetUserAccountRequest{
+    string user_uuid = 1;
+}
+
+message GetUserAccountResponse{
+    string user_uuid = 1;
+    int32 balance = 2;
+    Plan plan = 3;
+
+}
