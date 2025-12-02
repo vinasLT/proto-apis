@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package auth.v1;
+
+service AuthService{
+    rpc GetUser(GetUserRequest) returns (GetUserResponse);
+}
+
+message GetUserRequest{
+    string user_uuid = 1;
+}
+
+message GetUserResponse{
+    string first_name = 1;
+    string last_name = 2;
+    string language = 3;
+    string email = 4;
+    string username = 5;
+    string phone_number = 6;
+    bool is_active = 7;
+    bool phone_verified = 8;
+    bool email_verified = 9;
+}
+
