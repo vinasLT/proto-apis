@@ -88,8 +88,28 @@ message GetCalculatorWithoutDataRequest {
 
 message GetCalculatorWithDataResponse {
   CalculatorOut data = 1;
-  string message = 2;
-  bool success = 3;
+  DetailedCalculatorData detailed_data = 2;
+  string message = 3;
+  bool success = 4;
+}
+
+message Terminal {
+  int32 terminal_id = 1;
+  string terminal_name = 2;
+}
+
+message Destination{
+  int32 destination_id = 1;
+  string destination_name = 2;
+}
+
+message DetailedCalculatorData{
+  int32 location_id = 1;
+  Location location_data = 2;
+  repeated Terminal terminals = 3;
+  int32 fee_type_id = 4;
+  FeeType fee_type_data = 5;
+  repeated Destination available_destinations = 6;
 }
 
 message GetCalculatorWithIdsResponse {
@@ -115,8 +135,9 @@ message FeeType{
 
 message GetCalculatorWithoutDataResponse {
   CalculatorOut data = 1;
-  string message = 2;
-  bool success = 3;
+  DetailedCalculatorData detailed_data = 2;
+  string message = 3;
+  bool success = 4;
 }
 
 message CalculatorBatchItem {
