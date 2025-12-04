@@ -1,0 +1,189 @@
+syntax = "proto3";
+
+package calculator.v1;
+
+service CalculatorService {
+    rpc GetCalculatorWithData(GetCalculatorWithDataRequest) returns (GetCalculatorWithDataResponse);
+    rpc GetCalculatorWithDataBatch(GetCalculatorWithDataBatchRequest) returns (GetCalculatorWithDataBatchResponse);
+    rpc GetCalculatorWithoutData(GetCalculatorWithoutDataRequest) returns (GetCalculatorWithoutDataResponse);
+    rpc GetCalculatorWithIds(GetCalculatorWithIdsRequest) returns (GetCalculatorWithIdsResponse);
+}
+
+service DetailedInfoService {
+    rpc GetDetailedLocation(GetDetailedLocationRequest) returns (GetDetailedLocationResponse);
+    rpc GetDetailedTerminal(GetDetailedTerminalRequest) returns (GetDetailedTerminalResponse);
+    rpc GetDetailedDestination(GetDetailedDestinationRequest) returns (GetDetailedDestinationResponse);
+    rpc GetDetailedFeeType(GetDetailedFeeTypeRequest) returns (GetDetailedFeeTypeResponse);
+}
+
+message GetDetailedFeeTypeRequest{
+    int32 id = 1;
+}
+message GetDetailedFeeTypeResponse{
+    string auction = 1;
+    string fee_type = 2;
+}
+
+message GetDetailedLocationRequest {
+    int32 id = 1;
+}
+
+message GetDetailedLocationResponse {
+    string name = 1;
+    string city = 2;
+    string state = 3;
+    string postal_code = 4;
+    string email = 5;
+}
+
+message GetDetailedTerminalRequest {
+    int32 id = 1;
+}
+
+message GetDetailedTerminalResponse {
+    string name = 1;
+}
+
+message GetDetailedDestinationRequest {
+    int32 id = 1;
+}
+
+message GetDetailedDestinationResponse {
+    string name = 1;
+    bool is_default = 2;
+}
+
+message GetCalculatorWithDataRequest {
+  int32 price = 1;
+  string auction = 2;
+  optional string fee_type = 3;
+  string vehicle_type = 4;
+  optional string destination = 5;
+  string location = 6;
+}
+
+message GetCalculatorWithIdsRequest {
+    int32 price = 1;
+    string auction = 2;
+    optional int32 fee_type_id = 3;
+    string vehicle_type = 4;
+    optional int32 destination_id = 5;
+    optional int32 location_id = 6;
+}
+
+message GetCalculatorBatchRequest {
+  GetCalculatorWithDataRequest data = 1;
+  string lot_id = 2;
+}
+
+message GetCalculatorWithDataBatchRequest {
+  repeated GetCalculatorBatchRequest data = 1;
+}
+
+message GetCalculatorWithoutDataRequest {
+  int32 price = 1;
+  string auction = 2;
+  string lot_id = 3;
+}
+
+message GetCalculatorWithDataResponse {
+  CalculatorOut data = 1;
+  string message = 2;
+  bool success = 3;
+}
+
+message GetCalculatorWithIdsResponse {
+    CalculatorOut calculator = 1;
+    Location location = 2;
+    string terminal_name = 3;
+    string destination_name = 4;
+    FeeType fee_type = 5;
+}
+
+message Location {
+    string name = 1;
+    string city = 2;
+    string state = 3;
+    string postal_code = 4;
+    string email = 5;
+}
+
+message FeeType{
+    string auction = 1;
+    string fee_type = 2;
+}
+
+message GetCalculatorWithoutDataResponse {
+  CalculatorOut data = 1;
+  string message = 2;
+  bool success = 3;
+}
+
+message CalculatorBatchItem {
+  CalculatorOut calculator = 1;
+  string lot_id = 2;
+}
+
+message GetCalculatorWithDataBatchResponse {
+  repeated CalculatorBatchItem data = 1;
+  string message = 2;
+  bool success = 3;
+}
+
+message City {
+  string name = 1;
+  int32 price = 2;
+}
+
+message VATs {
+  repeated City vats = 1;
+  repeated City eu_vats = 2;
+}
+
+message SpecialFee {
+  int32 price = 1;
+  string name = 2;
+}
+
+message AdditionalFeesOut {
+  int32 summ = 1;
+  repeated SpecialFee fees = 2;
+  int32 auction_fee = 3;
+  int32 internet_fee = 4;
+  int32 live_fee = 5;
+}
+
+message BaseCalculator {
+  int32 broker_fee = 1;
+  repeated City transportation_price = 2;
+  repeated City ocean_ship = 3;
+  AdditionalFeesOut additional = 4;
+  repeated City totals = 5;
+}
+
+message DefaultCalculator {
+  int32 broker_fee = 1;
+  repeated City transportation_price = 2;
+  repeated City ocean_ship = 3;
+  AdditionalFeesOut additional = 4;
+  repeated City totals = 5;
+  int32 auction_fee = 6;
+  int32 live_fee = 7;
+  int32 internet_fee = 8;
+}
+
+message EUCalculator {
+  int32 broker_fee = 1;
+  repeated City transportation_price = 2;
+  repeated City ocean_ship = 3;
+  AdditionalFeesOut additional = 4;
+  repeated City totals = 5;
+  VATs vats = 6;
+  int32 custom_agency = 7;
+}
+
+message CalculatorOut {
+  DefaultCalculator calculator = 1;
+  EUCalculator eu_calculator = 2;
+}
+
